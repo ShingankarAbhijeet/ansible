@@ -1,0 +1,19 @@
+---
+-
+  name: Add user to target
+  hosts: all
+  tasks: 
+   - 
+    name: "add group"
+    group:
+      name: admin
+      gid: 5000
+   -
+    name: "add user"
+    user:
+      name: abhi
+      uid: 2000
+      shell: /bin/bash
+      group: admin
+      home: /home/abhi  
+      state: present

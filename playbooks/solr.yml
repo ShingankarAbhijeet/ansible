@@ -1,0 +1,32 @@
+---
+- hosts: db
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Install java
+      yum: name=java-1.8.0-openjdk state=present
+
+    - name: download solar
+      get_url:
+        url: " http://archive.apache.org/dist/lucene/solr/8.0.0/solr-8.0.0.tgz"
+        dest: "{{ download_dir}}/solr-{{ solr_version}}.tgz"
+    - name: Expand solr
+      unarchive:
+        src: "{{ download_dir}}/solr-{{ solr_version}}.tgz"
+        dest: "{{ download_dir}}"
+        remote_src: true
+        creates: "{{ download_dir}}/solr-{{ solr_version}}/README"
+    - name: Run Solr instalation
+      command: >
+       {{download_dir}}/solr-{{solr_version}}/bin/install_solr_service.sh
+       {{download_dir}}/solr-{{solr_version}}.tgz
+       -i /opt
+       -d /var/solr
+       -u solr
+       -s solr
+       -p 8080
+       creates={{solr_dir}}/solr
+    - name: Ensure solr is started & enabled
+      service: name=solr state=started enabled=yes	
+        	   

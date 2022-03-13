@@ -1,0 +1,13 @@
+---
+- name: install & start ntp service
+  hosts: all
+  become: yes
+  tasks:
+    - name: install ntp
+      yum: name=ntp
+    - shell: |
+       if !rpm -qa |grep -qa ntp;then
+         yum install -y ntp
+       fi    
+    - name: start ntp
+      service: name=ntpd state=started enabled=yes

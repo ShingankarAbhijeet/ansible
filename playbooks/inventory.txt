@@ -1,0 +1,9 @@
+# Application server
+[application]
+app
+# Database server
+[database]
+db
+[multi:children]
+application
+database

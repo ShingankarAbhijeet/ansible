@@ -1,0 +1,23 @@
+---
+-
+  name: Add user to target
+  hosts: all
+  tasks: 
+  - name: "add group"
+    group:
+      name: admin
+      gid: 5000
+  - name: "add user"
+    user: 
+     name: '{{ item.name }}' 
+     uid: '{{item.uid}}' 
+     shell: '{{item.shell}}'
+     group: '{{item.group}}'
+     home:  '{{item.home}}'
+     state: present
+    loop:  
+     - { name: abhi , uid: 2000 , shell: /bin/bash , group: admin , home: /home/abhi }
+
+     - { name: vishu , uid: 2001 , shell: /bin/bash , group: admin , home: /home/vishu }
+
+     - { name: ani , uid: 2002 , shell: /bin/ksh , group: admin , home: /home/ani }
