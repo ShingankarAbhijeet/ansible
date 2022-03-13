@@ -16,4 +16,4 @@
       shell: /bin/bash
       group: admin
       home: /home/abhi  
-      state: present
+      state: absent
