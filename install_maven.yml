@@ -1,0 +1,15 @@
+---
+- name: install maven
+  hosts: jenkins_server
+  become: true
+
+  tasks:
+  - name: download from url
+    get_url: 
+     url: http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo
+     dest: /etc/yum.repos.d/epel-apache-maven.repo 
+     remote_src: yes
+  - name: install maven
+    yum:
+     name: apache-maven
+     state: present

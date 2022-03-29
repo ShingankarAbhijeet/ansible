@@ -1,0 +1,27 @@
+---
+- name: install jenkins server
+  hosts: jenkins_server
+  become: true
+
+  tasks:
+    - name: download packages from website  
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: install java
+      yum:
+       name: java-openjdk
+       state: present
+
+    - name: install jenkins
+      yum:
+       name: jenkins
+       state: present
+       disable_gpg_check: yes
+
+    - name: start & enable jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes

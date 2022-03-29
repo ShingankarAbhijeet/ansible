@@ -1,0 +1,11 @@
+---
+- name: check FS is present
+  become: true
+  hosts: all
+
+  tasks:
+   - name: check FS
+     lvol:
+      vg: vg0
+      lv: bootvol
+      state: present  

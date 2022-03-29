@@ -1,0 +1,4 @@
+---
+ download_dir: /tmp
+ solr_dir: /opt
+ solr_version: 8.0.0

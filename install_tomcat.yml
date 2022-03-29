@@ -1,0 +1,36 @@
+---
+- name: Install apache tomcat
+  hosts: app
+  become: true
+
+  tasks:
+  - name: install java 1.8
+    yum:
+     name: java-1.8.0*
+     state: present
+  - name:
+    file:
+      path: /opt/tomcat
+      state: directory
+  - name: download apache tomcat package
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.18/bin/apache-tomcat-10.0.18.tar.gz
+      dest: /opt/tomcat
+  - name: untar package
+    unarchive:
+      src: /opt/tomcat/apache-tomcat-10.0.18.tar.gz
+      dest: /opt/tomcat
+      remote_src: yes
+  - name: replace the port to 8090
+    replace:
+     path: /opt/tomcat/apache-tomcat-10.0.18/conf/server.xml
+     regexp: 8080
+     replace: 8090    
+  - name: stop the tomcat service
+    shell:
+      '/bin/sh /opt/tomcat/apache-tomcat-10.0.18/bin/shutdown.sh ' 
+  - name: start the tomcat service
+    shell:
+      '/bin/sh /opt/tomcat/apache-tomcat-10.0.18/bin/startup.sh '
+
+      
